@@ -1,114 +1,98 @@
-#include <stdio.h>
 #include <stdlib.h>
-#include <locale.h>
+#include <stdio.h>
 
-int op;
-float depositar;
-float saque;
-float resultado;
-float deposito;
-float valor;
-float resultadoDepo;
-
-struct banco
+    float saldoAtual(float saldoAnterior, float deposito, float saque)
 {
-    char nome[200];
-    char nmrConta[200];
-    char tipoconta[200];
-    float saldo;
-};
-float depositoo(float depositar)
-{
-    float deposito;
-    deposito = deposito + depositar;
-    return deposito;
+    return saldoAnterior + deposito - saque;
 }
 
-float Sacar(float saque)
+struct dados_conta
 {
-    float sacado;
-    sacado = sacado + saque;
-};
 
-void menu()
-{
-    printf("1- Depositar\n");
-    printf("2- Sacar\n");
-    printf("3- Imprimir saldo atual\n");
-    printf("Digite o numero de sua opçao:");
-    scanf("%d", &op);
-    fflush(stdin);
-};
-
-float ValorTotal(float saque, float deposito)
-{
-    return saque - deposito;
+    char nome[500];
+    int numero;
+    float saldo;
+    char tipodeConta[500];
 };
 
 int main()
 {
-    setlocale(LC_ALL, "portuguese");
-    struct banco conta;
+
+    struct dados_conta conta;
+    int resposta;
+    float deposito, soma = 0, subtracao = 0, saque;
+
+    printf("Nome do titular: ");
+    gets(conta.nome);
+    printf("Número da conta: ");
+    scanf("%d", &conta.numero);
+    printf("Saldo: ");
+    scanf("%f", &conta.saldo);
+    system("cls || clear");
+
+    fflush(stdin);
+    printf("Tipos de conta\n\n");
+    printf("1. Poupança  ");
+    printf("2. Corrente\n\n");
+    printf("Qual é a sua? ");
+    gets(conta.tipodeConta);
+    system("cls || clear");
+
+    printf("1. Depositar  ");
+    printf("2. Sacar  ");
+    printf("3. Imprimir o saldo atual\n\n");
+
+    printf("como deseja prosseguir? ");
+    scanf("%d", &resposta);
+    system("cls || clear");
 
     do
     {
-        menu();
-
-        switch (op)
+        switch (resposta)
         {
         case 1:
 
-            printf("Digite seu nome: ");
-            gets(conta.nome);
+            printf("Quanto deseja depositar? ");
+            scanf("%f", &deposito);
+            soma += deposito;
+            system("cls || clear");
 
-            fflush(stdin);
+            printf("1. Depositar  ");
+            printf("2. Sacar  ");
+            printf("3. Imprimir o saldo atual\n\n");
 
-            printf("Digite a numero da conta: ");
-            gets(conta.nmrConta);
-
-            fflush(stdin);
-
-            printf("Digite o tipo da conta: ");
-            gets(conta.tipoconta);
-
-            fflush(stdin);
-
-            printf("Digite a quantidade de a ser depositado: ");
-            scanf("%f", &depositar);
-
-            resultadoDepo = depositoo(depositar);
-
-            printf("Valor depositado: %f ", resultadoDepo);
+            printf("como deseja prosseguir? ");
+            scanf("%d", &resposta);
+            system("cls || clear");
             break;
 
         case 2:
-            printf("Digite a quantidade de a ser sacado: ");
+            printf("Quanto deseja sacar? ");
             scanf("%f", &saque);
+            subtracao += saque;
 
-            valor = Sacar(saque);
-            printf("Valor sacado: %f", valor);
+            printf("1. Depositar  ");
+            printf("2. Sacar  ");
+            printf("3. Imprimir o saldo atual\n\n");
+
+            printf("como deseja prosseguir? ");
+            scanf("%d", &resposta);
+            system("cls || clear");
             break;
-        case 3:
 
-            printf("Digite seu nome: ");
-            gets(conta.nome);
-
-            printf("Digite a numero da conta: ");
-            gets(conta.nmrConta);
-
-            printf("Digite o tipo da conta: ");
-            gets(conta.tipoconta);
-
-            resultado = ValorTotal(saque, deposito);
-
-            printf("Saldo atual: %f \n", resultado);
-            break;
         default:
-            printf("Numero invalido");
+            printf("Opção invalida");
+            getchar();
+
+            system("cls || clear");
             break;
         }
+    } while (resposta != 3);
 
-    } while (op != 3);
+    printf("Saldo Anterior: R$%.1f\n", conta.saldo);
+    printf("Total de deposito: R$%.1f\n", soma);
+    printf("Total de saque: R$%.1f\n\n", subtracao);
+    printf("Saldo atual: R$%.1f\n", saldoAtual(conta.saldo, soma, subtracao));
 
     return 0;
 }
